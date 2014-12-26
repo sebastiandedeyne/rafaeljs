@@ -2,9 +2,10 @@
 var Rafael;
 
 Rafael = function() {
-  var bind, dimensions, enabled, events, fire, init, isEnabled, oldDimensions, oldPositions, positions, registerNewValues, registerOldValues, runFunctionsForEvent, start, stop;
+  var bind, dimensions, enabled, events, fire, isEnabled, oldDimensions, oldPositions, positions, rAF, registerValues, runFunctionsForEvent, start, stop;
   enabled = true;
   events = {
+    raf: [],
     resize: [],
     resizeX: [],
     resizeY: [],
@@ -28,12 +29,11 @@ Rafael = function() {
     x: 0,
     y: 0
   };
-  init = function() {
-    window.requestAnimationFrame(init);
+  rAF = function() {
+    window.requestAnimationFrame(rAF);
     if (enabled) {
-      registerNewValues();
-      fire();
-      return registerOldValues();
+      registerValues();
+      return fire();
     }
   };
   bind = function(eventsToBind, callable) {
@@ -50,19 +50,18 @@ Rafael = function() {
     }
     return _results;
   };
-  registerNewValues = function() {
+  registerValues = function() {
+    oldDimensions.x = dimensions.x;
+    oldDimensions.y = dimensions.y;
+    oldPositions.x = positions.x;
+    oldPositions.y = positions.y;
     dimensions.x = window.innerWidth;
     dimensions.y = window.innerHeight;
     positions.x = document.body.scrollLeft;
     return positions.y = document.body.scrollTop;
   };
-  registerOldValues = function() {
-    oldDimensions.x = dimensions.x;
-    oldDimensions.y = dimensions.y;
-    oldPositions.x = positions.x;
-    return oldPositions.y = positions.y;
-  };
   fire = function() {
+    runFunctionsForEvent('raf');
     if (dimensions.x !== oldDimensions.x || dimensions.y !== oldDimensions.y) {
       runFunctionsForEvent('resize');
     }
@@ -110,8 +109,8 @@ Rafael = function() {
   isEnabled = function() {
     return enabled;
   };
+  rAF();
   return {
-    init: init,
     bind: bind,
     dimensions: dimensions,
     oldDimensions: oldDimensions,

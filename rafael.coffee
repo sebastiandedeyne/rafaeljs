@@ -2,6 +2,7 @@ Rafael = ->
   enabled = true
 
   events =
+    raf:      []
     resize:   []
     resizeX:  []
     resizeY:  []
@@ -14,31 +15,30 @@ Rafael = ->
   positions       = { x: 0, y: 0 }
   oldPositions    = { x: 0, y: 0 }
 
-  init = ->
-    window.requestAnimationFrame init
+  rAF = ->
+    window.requestAnimationFrame rAF
     if enabled
-      do registerNewValues
+      do registerValues
       do fire
-      do registerOldValues
 
   bind = (eventsToBind, callable) ->
     for eventToBind, i in eventsToBind.split ' '
       if events.hasOwnProperty eventToBind
         events[eventToBind].push callable
 
-  registerNewValues = ->
-    dimensions.x    = window.innerWidth
-    dimensions.y    = window.innerHeight
-    positions.x     = document.body.scrollLeft
-    positions.y     = document.body.scrollTop
-
-  registerOldValues = ->
+  registerValues = ->
     oldDimensions.x   = dimensions.x
     oldDimensions.y   = dimensions.y
     oldPositions.x    = positions.x
     oldPositions.y    = positions.y
 
+    dimensions.x    = window.innerWidth
+    dimensions.y    = window.innerHeight
+    positions.x     = document.body.scrollLeft
+    positions.y     = document.body.scrollTop
+
   fire = ->
+    runFunctionsForEvent 'raf'
     if dimensions.x isnt oldDimensions.x or dimensions.y isnt oldDimensions.y
       runFunctionsForEvent 'resize'
     if dimensions.x isnt oldDimensions.x
@@ -66,8 +66,9 @@ Rafael = ->
   isEnabled = ->
     enabled
 
+  do rAF
+
   return {
-    init: init
     bind: bind
     dimensions: dimensions
     oldDimensions: oldDimensions
