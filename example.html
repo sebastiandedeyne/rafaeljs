@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>RafaelJS</title>
+  </head>
+  <body>
+    <h1>RafaelJS</h1>
+    <ul id="eventLog"></ul>
+    <script src="rafael.js"></script>
+    <script>
+      function logEvent(message) {
+        var entry = document.createElement('li');
+        entry.appendChild(document.createTextNode(message));
+        document.getElementById('eventLog').appendChild(entry);
+      }
+
+      var rafael = new Rafael();
+
+      rafael.bind('resize', function() {
+        logEvent('Resize fired via Rafael');
+      });
+      rafael.bind('resizeX', function() {
+        logEvent('ResizeX fired via Rafael');
+      });
+      rafael.bind('resizeY', function() {
+        logEvent('ResizeY fired via Rafael');
+      });
+
+      rafael.bind('scroll', function() {
+        logEvent('Scroll fired via Rafael');
+      });
+      rafael.bind('scrollX', function() {
+        logEvent('ScrollX fired via Rafael');
+      });
+      rafael.bind('scrollY', function() {
+        logEvent('ScrollY fired via Rafael');
+      });
+
+      rafael.init();
+    </script>
+  </body>
+</html>
