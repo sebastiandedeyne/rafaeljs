@@ -21,12 +21,12 @@ rafael.bind('scroll', function() {
 resize, resizeX, resizeY, scroll, scrollX, scrollY, raf
 ```
 
-Note: `raf` bind directly to `window.requestAnimationFrame`.
+Note: `raf` binds directly to `window.requestAnimationFrame`.
 
 ### Methods
 
 - `bind`: Bind an event to the rafael instance
-- `stop`: Disable's all registered events
+- `stop`: Disables all registered events
 - `start`: Re-enables all registered events
 - `enabled`: Returns a boolean describing whether the rafael instance is enabled or not
 - `dimensions`: Returns an object with the window's current dimensions
